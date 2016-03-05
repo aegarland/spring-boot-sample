@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
         format = { "pretty","html:cucumber-html-reports",
                 "json:cucumber-html-reports/cucumber.json" },
         dryRun = false,
-        glue = "features.step_definitions" )
-public class CucumberTest {
+        glue = {"features.step_definitions", "cucumber.api.spring" } )
+public class CucumberIT {
 }
 

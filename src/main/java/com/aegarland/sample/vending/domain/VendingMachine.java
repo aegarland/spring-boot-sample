@@ -7,12 +7,10 @@ import com.aegarland.sample.vending.service.DisplayModule;
 import com.aegarland.sample.vending.service.FulfillmentModule;
 import com.aegarland.sample.vending.service.PaymentModule;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -35,7 +33,8 @@ public class VendingMachine {
 
     @RequestMapping(value = "/sell", method = RequestMethod.POST)
     @Transactional
-    public boolean sell(@ApiParam(name = "slotlabel", value = "slot label", required = true, allowableValues = "A1,A2") @RequestBody String slotlabel) {
+    @ApiResponse(code = 200, message = "Check return code", response = Boolean.class)
+    public @ResponseBody boolean sell(@ApiParam(name = "slotlabel", value = "slot label", required = true, allowableValues = "A1,A2") @RequestBody String slotlabel) {
         System.out.println(slotlabel);
         Optional<Product> product = fulfillment.getProduct(slotlabel);
         if (product.isPresent()) {
@@ -63,7 +62,8 @@ public class VendingMachine {
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET)
-    public int balance() {
+    @ApiResponse(code = 200, message = "Ok", response = Integer.class)
+    public @ResponseBody int balance() {
         return payment.getBalance();
     }
 }
